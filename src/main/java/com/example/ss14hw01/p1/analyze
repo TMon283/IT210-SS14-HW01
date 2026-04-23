@@ -1,0 +1,10 @@
+- Vấn đề trong code hiện tại:
+    + Mở Session nhưng không mở Transaction (chưa có session.beginTransaction())
+    + Khi gọi session.update(order), Hibernate sẽ flush ngay thay đổi xuống DB -> trạng thái đơn hàng
+    bị cập nhật thành 'PAID'
+    + Sau đó hệ thống ném RuntimeException trước khi trừ tiền ví. Vì không có transaction bao bọc,
+    không có rollback, nên thay đổi ở đơn hàng vẫn tồn tại trong DB.
+- Vòng đời Transaction đang thiếu:
+    + session.beginTransaction() để bắt đầu giao dịch.
+    + transaction.commit() để xác nhận khi mọi thao tác thành công.
+    + transaction.rollback() để hủy bỏ khi có lỗi.
