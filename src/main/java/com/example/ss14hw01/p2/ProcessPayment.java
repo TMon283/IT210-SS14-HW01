@@ -3,9 +3,13 @@ package com.example.ss14hw01.p2;
 import com.example.ss14hw01.p2.config.HibernateUtils;
 import com.example.ss14hw01.p2.model.Order;
 import com.example.ss14hw01.p2.model.Wallet;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@RequiredArgsConstructor
 public class ProcessPayment {
     public void processPayment(Long orderId, Long walletId, double totalAmount) {
         Session session = HibernateUtils.getSessionFactory().openSession();
